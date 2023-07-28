@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Dropdown with Ajax</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h2>Select Option:</h2>
+    <select id="optionSelect" onchange="loadSubcategories()">
+        
+        <option value="">Seelect Data</option>
+        <option value="0">0</option>
+    </select>
+
+    <h2>Select Subcategory 1:</h2>
+    <select id="subcategory1Select" onchange="loadSubcategory2()">
+        <option value="">Select a subcategory 1</option>
+    </select>
+
+    <h2>Select Subcategory 2:</h2>
+    <select id="subcategory2Select">
+        <option value="">Select a subcategory 2</option>
+    </select>
+
+    <h2>Select Subcategory 3:</h2>
+    <select id="subcategory3Select">
+        <option value="">Select a subcategory 3</option>
+    </select>
+
+    <script>
+        // Nested JSON data representing the options hierarchy
+        var optionsData = {
+            "0": ["1", "2", "3"],
+            "1": ["1-1", "1-2", "1-3"],
+            "2": ["2-1", "2-2", "2-3"],
+            "3": ["3-1", "3-2", "3-3"],
+            "1-1": ["1-1-1", "1-1-2", "1-1-3"],
+            "1-2": ["1-2-1", "1-2-2", "1-2-3"],
+            "1-3": ["1-3-1", "1-3-2", "1-3-3"],
+            "2-1": ["2-1-1", "2-1-2", "2-1-3"],
+            "2-2": ["2-2-1", "2-2-2", "2-2-3"],
+            "2-3": ["2-3-1", "2-3-2", "2-3-3"],
+            "3-1": ["3-1-1", "3-1-2", "3-1-3"],
+            "3-2": ["3-2-1", "3-2-2", "3-2-3"],
+            "3-3": ["3-3-1", "3-3-2", "3-3-3"]
+        };
+
+        function loadSubcategories() {
+            var selectedOption = $("#optionSelect").val();
+            var subcategory1Select = $("#subcategory1Select");
+            var subcategory2Select = $("#subcategory2Select");
+            var subcategory3Select = $("#subcategory3Select");
+            var subcategory4Select = $("#subcategory3Select");
+
+            subcategory1Select.empty(); // Clear the previous subcategory 1 options
+            subcategory2Select.empty(); // Clear the previous subcategory 2 options
+            subcategory3Select.empty(); // Clear the previous subcategory 3 options
+            subcategory4Select.empty(); // Clear the previous subcategory 3 options
+
+            if (selectedOption === "") {
+                subcategory1Select.append("<option value=''>Select a subcategory 1</option>");
+            } else {
+                loadSubcategoryOptions(selectedOption, subcategory1Select);
+            }
+        }
+
+        function loadSubcategory2() {
+            var selectedSubcategory1 = $("#subcategory1Select").val();
+            var subcategory2Select = $("#subcategory2Select");
+            var subcategory3Select = $("#subcategory3Select");
+
+            subcategory2Select.empty(); // Clear the previous subcategory 2 options
+            subcategory3Select.empty(); // Clear the previous subcategory 3 options
+
+            if (selectedSubcategory1 === "") {
+                subcategory2Select.append("<option value=''>Select a subcategory 2</option>");
+            } else {
+                loadSubcategoryOptions(selectedSubcategory1, subcategory2Select);
+            }
+        }
+
+        function loadSubcategoryOptions(selectedValue, selectElement) {
+            var subcategories = optionsData[selectedValue] || [];
+
+            for (var i = 0; i < subcategories.length; i++) {
+                selectElement.append("<option value='" + subcategories[i] + "'>" + subcategories[i] + "</option>");
+            }
+        }
+    </script>
+</body>
+</html>
